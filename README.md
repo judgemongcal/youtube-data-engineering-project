@@ -1,2 +1,11 @@
 # youtube-data-engineering-project
-A simple Youtube Data Pipeline using AWS
+
+## Introduction
+
+## Architecture
+
+## Technology Used
+
+## Dataset Used
+
+## Scripts for the project
