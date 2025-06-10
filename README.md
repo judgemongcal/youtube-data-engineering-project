@@ -6,6 +6,7 @@ This project is a YouTube Data Engineering pipeline built on AWS, designed to pr
 As an added feature, a Tableau dashboard is included to provide visual insights into the processed data. The dashboard allows users to explore trends in viewer engagement, video performance, and category-level statistics, offering a more interactive way to interpret and communicate findings.
 
 ## Architecture
+![architecture](https://github.com/user-attachments/assets/c134933d-cc1d-41a7-ac74-1dc942b272ff)
 
 ## Technology Used
 For this project, the following programming languages and tools where used:
@@ -53,10 +54,11 @@ This lambda function converts the json files into parquet so that it can be proc
 This dashboard aims to provide creators necessary information to help them decide which types of videos work well from 2010 - 2018 on three different regions.
 
 For the live dashboard, visit the [**Youtube Data Engineering Project - Dashboard**](https://public.tableau.com/views/YoutubeDataEngineeringProject-Dashboard/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
-![Dashboard 1 (1)](https://github.com/user-attachments/assets/428cfe73-1b95-49b7-907f-114a7e885bc7)
+![Dashboard](https://github.com/user-attachments/assets/663db535-550e-4a5e-b095-5ff030aa7eae)
 
 
-I'd love to hear your thoughts and feedback to further improve my skills! 🙌🏽
+## Got Feedback?
+**I'd love to hear your thoughts and feedback to further improve my skills! 🙌🏽**
 
 You can connect with me through my [**LinkedIn**](https://www.linkedin.com/in/judgemongcal/)
 
