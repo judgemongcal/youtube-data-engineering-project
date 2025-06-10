@@ -26,4 +26,4 @@ For the purpose of this project, only the data from the Canada (CA), United King
 
 ## Scripts for the project
 
-Lambda Step Function: [Step-Function Code](src/step-function/step-function.json)
+Lambda Step Function: [Step-Function Code](src/step-function/youtube-analytics-etl-workflow.json)
