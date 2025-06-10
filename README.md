@@ -62,3 +62,4 @@ For the live dashboard, visit the [**Youtube Data Engineering Project - Dashboar
 
 You can connect with me through my [**LinkedIn**](https://www.linkedin.com/in/judgemongcal/)
 
+Huge thanks to [**Darshil Parmar**](https://github.com/darshilparmar) for the project inspiration and guide!
