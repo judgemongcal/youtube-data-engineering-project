@@ -1,0 +1,103 @@
+{
+	"Comment": "A description of my state machine",
+	"StartAt": "trigger-json-to-parquet",
+	"States": {
+		"trigger-json-to-parquet": {
+			"Type": "Task",
+			"Resource": "arn:aws:states:::lambda:invoke",
+			"Output": "{% $states.result.Payload %}",
+			"Arguments": {
+				"FunctionName": "arn:aws:lambda:ap-southeast-1:864899834969:function:youtube-stat-raw-lambda-json-to-parquet:$LATEST",
+				"Payload": "{% $states.input %}"
+			},
+			"Retry": [
+				{
+					"ErrorEquals": [
+						"Lambda.ServiceException",
+						"Lambda.AWSLambdaException",
+						"Lambda.SdkClientException",
+						"Lambda.TooManyRequestsException"
+					],
+					"IntervalSeconds": 1,
+					"MaxAttempts": 3,
+					"BackoffRate": 2,
+					"JitterStrategy": "FULL"
+				}
+			],
+			"Next": "trigger-raw-crawlers"
+		},
+		"trigger-raw-crawlers": {
+			"Type": "Task",
+			"Resource": "arn:aws:states:::lambda:invoke",
+			"Output": "{% $states.result.Payload %}",
+			"Arguments": {
+				"FunctionName": "arn:aws:lambda:ap-southeast-1:864899834969:function:trigger-raw-crawlers:$LATEST",
+				"Payload": "{% $states.input %}"
+			},
+			"Retry": [
+				{
+					"ErrorEquals": [
+						"Lambda.ServiceException",
+						"Lambda.AWSLambdaException",
+						"Lambda.SdkClientException",
+						"Lambda.TooManyRequestsException"
+					],
+					"IntervalSeconds": 1,
+					"MaxAttempts": 3,
+					"BackoffRate": 2,
+					"JitterStrategy": "FULL"
+				}
+			],
+			"Next": "trigger-cleansing"
+		},
+		"trigger-cleansing": {
+			"Type": "Task",
+			"Resource": "arn:aws:states:::lambda:invoke",
+			"Output": "{% $states.result.Payload %}",
+			"Arguments": {
+				"FunctionName": "arn:aws:lambda:ap-southeast-1:864899834969:function:trigger-cleansing:$LATEST",
+				"Payload": "{% $states.input %}"
+			},
+			"Retry": [
+				{
+					"ErrorEquals": [
+						"Lambda.ServiceException",
+						"Lambda.AWSLambdaException",
+						"Lambda.SdkClientException",
+						"Lambda.TooManyRequestsException"
+					],
+					"IntervalSeconds": 1,
+					"MaxAttempts": 3,
+					"BackoffRate": 2,
+					"JitterStrategy": "FULL"
+				}
+			],
+			"Next": "trigger-analytics-version"
+		},
+		"trigger-analytics-version": {
+			"Type": "Task",
+			"Resource": "arn:aws:states:::lambda:invoke",
+			"Output": "{% $states.result.Payload %}",
+			"Arguments": {
+				"FunctionName": "arn:aws:lambda:ap-southeast-1:864899834969:function:trigger-analytics-version:$LATEST",
+				"Payload": "{% $states.input %}"
+			},
+			"Retry": [
+				{
+					"ErrorEquals": [
+						"Lambda.ServiceException",
+						"Lambda.AWSLambdaException",
+						"Lambda.SdkClientException",
+						"Lambda.TooManyRequestsException"
+					],
+					"IntervalSeconds": 1,
+					"MaxAttempts": 3,
+					"BackoffRate": 2,
+					"JitterStrategy": "FULL"
+				}
+			],
+			"End": true
+		}
+	},
+	"QueryLanguage": "JSONata"
+}
