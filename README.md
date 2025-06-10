@@ -15,15 +15,48 @@ For this project, the following programming languages and tools where used:
 - AWS Glue for ETL Jobs and Data Catalog creation
 - AWS Lambda for Workflow Orchestration (Step Functions)
 - AWS Athena for querying the Data Catalog using SQL
-- 
+
+There are multiple ways and tools that can be integrated with AWS Athena to provide real-time data for the dashboard creation but to limit the expense in building this personal project, I manually exported the cleansed and analytics-ready dataset from AWS Athena and used [Tableau Public](https://www.tableau.com/products/public/download) to create the dashboard.
+
 ## Dataset Used
 
-This project uses the [Trending YouTube Video Statistics](https://www.kaggle.com/datasets/datasnaek/youtube-new) dataset, originally published on Kaggle by DataSnaker. The dataset contains daily records of trending YouTube videos for multiple regions, including metadata such as video titles, channel names, category IDs, publish dates, views, likes, dislikes, comment counts, and more.
+The Trending Youtube Video Statistics dataset that was used for this project includes several years of data on daily trending Youtube videos from different regions. For the scope of this project, I limited the data to only process records from United Kingdom (GB), Canada (CA), and United States (US). Each region's data is in a separate file, and can be referenced with the category_id.
 
-For the purpose of this project, only the data from the Canada (CA), United Kingdom (GB), and United State (US) regions were used.
+This dataset serves as the foundation for the ETL pipeline, analysis scripts, and Tableau dashboard visualizations created in this project.
 
-
+For more information, you can download the same dataset from this link: [**Trending Youtube Video Statistics**](https://www.kaggle.com/datasets/datasnaek/youtube-new)
 
 ## Scripts for the project
 
-Lambda Step Function: [Step-Function Code](src/step-function/youtube-analytics-etl-workflow.json)
+- **Lambda Step Function**: [Step Function Code](/step-function/youtube-analytics-etl-workflow.json)
+- **Lambda Functions**: [Lambda Functions Code](/lambda-functions/)
+- **Glue ETL Jobs**: [Glue ETL Jobs Code](/glue-etl-jobs/)
+
+## Brief Walkthrough of the ETL Workflow
+
+![step function](https://github.com/user-attachments/assets/ae4994ae-57f3-4313-bae6-930b2825782c)
+
+**Step 1**: Once you upload the files in the raw bucket, the event triggers the lambda function  [**youtube-stat-raw-lambda-json-to-parquet**](/lambda-functions/youtube-stat-raw-lambda-json-to-parquet.py).
+This lambda function converts the json files into parquet so that it can be processed and queried properly inside AWS.
+
+**Step 2**: The step function triggers the lambda function [**trigger-raw-crawlers**](/lambda-functions/trigger-raw-crawlers.py). It triggers two crawlers simultaneously, which creates a data catalog of the raw data and the raw category reference data (both are provided in the dataset).
+
+**Step 3**: The trigger-cleansing step basically triggers the lambda function [**trigger-cleansing**](/lambda-functions/trigger-cleansing.py). It triggers an Glue ETL Job to remove nulls and convert some string columns into bigint data type. After that, it triggers a crawler assigned for the output path location to create a copy of the cleansed version in our data catalog.
+
+**Step 4**: The last step triggers [**youtube-stat-parquet-analytics-version**](/glue-etl-jobs/youtube-stat-parquet-analytics-version.py), which joins the cleansed data and cleansed category reference data to create the analytics-ready dataset. Lastly, it adds the resulting table into the data catalog.
+
+![step function_success](https://github.com/user-attachments/assets/89b3acd1-4c51-469c-8234-acbd1ca35ce9)
+
+
+## Additional: Dashboard
+
+This dashboard aims to provide creators necessary information to help them decide which types of videos work well from 2010 - 2018 on three different regions.
+
+For the live dashboard, visit the [**Youtube Data Engineering Project - Dashboard**](https://public.tableau.com/views/YoutubeDataEngineeringProject-Dashboard/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
+![Dashboard 1 (1)](https://github.com/user-attachments/assets/428cfe73-1b95-49b7-907f-114a7e885bc7)
+
+
+I'd love to hear your thoughts and feedback to further improve my skills! 🙌🏽
+
+You can connect with me through my [**LinkedIn**](https://www.linkedin.com/in/judgemongcal/)
+
